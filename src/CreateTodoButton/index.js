@@ -1,7 +1,8 @@
-import react from "react";
 import './CreateTodoButton.css';
 
-function CreateTodoButton(props) {
+// Si no estas usando las props no debes recibirlas
+function CreateTodoButton() {
+  
   const onClickButton = (msg) =>{
     alert(msg);
   } 
