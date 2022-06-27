@@ -19,6 +19,7 @@ function AppUI({
         <React.Fragment >
      <TodoCounter 
       total={totalTodos}
+      /* Este esta bien porque es el contador */
       completed ={completedTodos}
      />
      <TodoSearch  
@@ -32,7 +33,8 @@ function AppUI({
      key={todo.text} 
      text={todo.text} 
      completed={todo.completed}
-     onComplete={() => completedTodos(todo.text)}
+     /* Este es el que contrala el checkbox de realizado o no realizado*/
+     onComplete={() => completeTodo(todo.text)}
      onDelete={() => deleteTodo(todo.text)}
 
      />
