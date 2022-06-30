@@ -1,20 +1,26 @@
 import React from "react";
-import './TodoSearch.css';
+import { TodoContext } from "../TodoContext";
+import "./TodoSearch.css";
 
-function TodoSearch({searchValue,setSearchValue}){    
-    const onSearchValueChaenge = (event) => {
-        console.log(event.target.value);
-        setSearchValue(event.target.value);
-    };    
-    return [
-        <input
-         className="TodoSearch" 
-         placeholder="Cebolla" 
-         value={searchValue}
-         onChange={onSearchValueChaenge}
-         />,
-         <p>{searchValue}</p>
-    ];
+function TodoSearch() {
+  const { searchValue, setSearchValue } = React.useContext(TodoContext);
+  const onSearchValueChaenge = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  // Estabas retornando un array []
+  // Por eso tenias una viso de que cada key debe ser unica
+  return (
+    <>
+      <input
+        className="TodoSearch"
+        placeholder="Cebolla"
+        value={searchValue}
+        onChange={onSearchValueChaenge}
+      />
+      ,<p>{searchValue}</p>
+    </>
+  );
 }
 
-export {TodoSearch};
+export { TodoSearch };

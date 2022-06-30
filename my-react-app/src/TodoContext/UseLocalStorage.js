@@ -1,10 +1,10 @@
 import React from "react";
 
-function useLocalStorage(itemName, initialValue) {
-  
+export function useLocalStorage(itemName, initialValue) {
     const [item, setItem] = React.useState(initialValue);
-    
-    useEffect(() => {
+   
+    /* Importamos de React el hook useEffect */
+    React.useEffect(() => {
       const localStorageItem = localStorage.getItem(itemName); 
       let parsedItem;
     
@@ -16,18 +16,16 @@ function useLocalStorage(itemName, initialValue) {
       }
       setItem(parsedItem)
     },[]) 
-  
+
   const saveItem = (newItem) => {
       const stringifiedItem =  JSON.stringify(newItem);
       localStorage.setItem(itemName,stringifiedItem);
       setItem(newItem);
     };
-  
-    return [
+    /* Aqui estabas devolviendo un array*/
+    /* Como son varioas props devuelves un objeto  */
+    return {
       item,
       saveItem,
-    ];
+    };
   }
-  
-
-  export { useLocalStorage }; 
