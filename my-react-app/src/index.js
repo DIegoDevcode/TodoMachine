@@ -9,8 +9,3 @@ root.render(
     <App/>
   </React.StrictMode>
 );
-
-ReactDOM.createPortal(
-  <App />,
-  document.getElementById('modal')
-);
