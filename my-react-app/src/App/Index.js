@@ -1,8 +1,6 @@
 /* Importamos el provider para poder usar los value que envia el TodoContext*/
 import React from "react";
 import { useTodos } from "./useTodos";
-import { TodoCounter } from "../TodoCounter/Index";
-import { TodoSearch } from "../TodoSearch/Index";
 import { TodoList } from "../TodoList/Index";
 import { TodoItem } from "../TodoItem/Index";
 import { TodosError} from "../TodosError/Index";
@@ -12,6 +10,8 @@ import { TodoForm }  from "../TodoForm/Index";
 import { CreateTodoButton } from "../CreateTodoButton/index";
 import { TodoContext } from "./useTodos";
 import { TodoHeader } from "../TodoHeader/Index";
+import { TodoCounter } from "../TodoCounter/Index";
+import { TodoSearch } from "../TodoSearch/Index";
 import { Modal } from "../Modal";
 
 function App() {
@@ -37,21 +37,26 @@ function App() {
   return (
     <React.Fragment>
       <TodoHeader>
-
       <TodoCounter
         totalTodos={totalTodos}
         /* Este esta bien porque es el contador */
         completedTodos={completedTodos}
         />
-      <TodoSearch searchValue={searchValue} setSearchValue={setSearchValue} />
+        <TodoSearch
+        searchValue={searchValue} 
+        setSearchValue={setSearchValue} 
+        />
         </TodoHeader>
 
-      <TodoList>
-        {error && <TodosError />}
-        {loading && <TodosLoading/>}
-        {(!loading && !searchedTodos.length) && <EmptyTodos />}
-        {searchedTodos.map((todo) => (
-          <TodoItem
+        <TodoList 
+          error={error}
+          loading={loading}
+          searchedTodos={searchedTodos}
+          onError={() => <TodosError />}
+          onLoading={() => <TodosLoading />}
+          onEmptyTodos={() => <EmptyTodos />}
+          render={todo => (
+            <TodoItem
             key={todo.text}
             text={todo.text}
             completed={todo.completed}
@@ -59,9 +64,9 @@ function App() {
             onComplete={() => completeTodo(todo.text)}
             onDelete={() => deleteTodo(todo.text)}
           />
-        ))}
-      </TodoList>
-
+        )}
+          />
+          
           {!!openModal && (
             <Modal>
               <TodoForm

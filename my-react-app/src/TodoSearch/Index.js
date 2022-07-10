@@ -3,6 +3,7 @@ import "./TodoSearch.css";
 
 function TodoSearch({searchValue, setSearchValue}) {
   const onSearchValueChaenge = (event) => {
+    console.log(event.target.value);
     setSearchValue(event.target.value);
   };
 

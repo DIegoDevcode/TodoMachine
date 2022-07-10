@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Children } from 'react'
 
-function TodoHeader({ children }) {
+
+function TodoHeader({ Children }) {
     return (
         <header>
-            children
+            {Children}
         </header>
     );  
 }
