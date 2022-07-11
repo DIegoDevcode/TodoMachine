@@ -13,6 +13,7 @@ import { TodoHeader } from "../TodoHeader/Index";
 import { TodoCounter } from "../TodoCounter/Index";
 import { TodoSearch } from "../TodoSearch/Index";
 import { Modal } from "../Modal";
+import { ChangeAlertWhithStorageListener } from "../ChangeAlert/Index";
 
 function App() {
   // Encapsulamos el APPUi en el provider
@@ -36,7 +37,7 @@ function App() {
   
   return (
     <React.Fragment>
-      <TodoHeader>
+      <TodoHeader loading={loading}>
       <TodoCounter
         totalTodos={totalTodos}
         /* Este esta bien porque es el contador */
@@ -51,11 +52,28 @@ function App() {
         <TodoList 
           error={error}
           loading={loading}
+          totalTodos={totalTodos}
           searchedTodos={searchedTodos}
+          searchText={searchValue}          
           onError={() => <TodosError />}
           onLoading={() => <TodosLoading />}
           onEmptyTodos={() => <EmptyTodos />}
-          render={todo => (
+          onEmptySearchResults={
+            (searchText) => <p>No hay resultados {searchText}</p> 
+          
+          }
+        //   render={todo => (
+        //     <TodoItem
+        //     key={todo.text}
+        //     text={todo.text}
+        //     completed={todo.completed}
+        //     /* Este es el que contrala el checkbox de realizado o no realizado*/
+        //     onComplete={() => completeTodo(todo.text)}
+        //     onDelete={() => deleteTodo(todo.text)}
+        //   />
+        // )}
+          >
+            {todo => (
             <TodoItem
             key={todo.text}
             text={todo.text}
@@ -65,8 +83,7 @@ function App() {
             onDelete={() => deleteTodo(todo.text)}
           />
         )}
-          />
-          
+          </TodoList>
           {!!openModal && (
             <Modal>
               <TodoForm
@@ -80,6 +97,7 @@ function App() {
       <CreateTodoButton
         setOpenModal={setOpenModal}
       />
+      <ChangeAlertWhithStorageListener />
     </React.Fragment>
   );
 }

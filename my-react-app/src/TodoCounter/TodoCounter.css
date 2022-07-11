@@ -5,3 +5,7 @@
     padding: 48px;
     color: rgb(12, 204, 38);
 }
+
+.TodoCounter--loading {
+    opacity: 25%;
+}
