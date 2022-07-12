@@ -1,8 +1,7 @@
 import React from 'react'
 import './ChangeAlert.css';
 
-const WithStorageListener=(WrappedComponent)=> {
-    return function WrappComponentWithStorageListener(props){
+const useStorageListener=(sincronize)=> {
         const [storageChange,setStorageChange]= React.useState(false)
            
         window.addEventListener('storage', (change) => {
@@ -13,19 +12,16 @@ const WithStorageListener=(WrappedComponent)=> {
         });
         
         const toggleShow = () => {
-            props.sincronize();
+            sincronize();
             setStorageChange(false);
         };
 
 
-        return (
-           <WrappedComponent
-           show={storageChange}
-           toggleShow={toggleShow}
-           />
-           )
-       }
+        return {
+            show: storageChange,
+           toggleShow,  
+        };
        }
 
 
-export  { WithStorageListener };
+export  { useStorageListener };

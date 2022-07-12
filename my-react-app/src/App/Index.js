@@ -13,7 +13,7 @@ import { TodoHeader } from "../TodoHeader/Index";
 import { TodoCounter } from "../TodoCounter/Index";
 import { TodoSearch } from "../TodoSearch/Index";
 import { Modal } from "../Modal";
-import { ChangeAlertWhithStorageListener } from "../ChangeAlert/Index";
+import { ChangeAlert } from "../ChangeAlert/Index";
 
 function App() {
   // Encapsulamos el APPUi en el provider
@@ -98,7 +98,7 @@ function App() {
       <CreateTodoButton
         setOpenModal={setOpenModal}
       />
-      <ChangeAlertWhithStorageListener
+      <ChangeAlert
       sincronize={sincronizeTodos}
       />
     </React.Fragment>
