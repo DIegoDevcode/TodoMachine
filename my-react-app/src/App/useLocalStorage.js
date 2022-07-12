@@ -1,7 +1,7 @@
 import React from "react";
 
  function useLocalStorage(itemName, initialValue) { 
-
+  const [sincronizedItem, setSincronizedItem] = React.useState(true);
   const [error, setError] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
 
@@ -23,13 +23,14 @@ import React from "react";
           }
           setItem(parsedItem);
           setLoading(false);
+          sincronizedItem(true);
         } catch (error) {
           console.log(error);
           setLoading(false);
           setError(error)
         }
       },3000);
-    },[]); // Este mensaje es solo adveretencia
+    },[sincronizedItem]); // Este mensaje es solo adveretencia
   
     const saveItem = (newItem) => {
       try {
@@ -40,6 +41,12 @@ import React from "react";
           setError(error);
         }
       };
+      
+      const sincronizeItem = () => {
+        setLoading(true)
+        setSincronizedItem(false)
+      };
+
       /* Aqui estabas devolviendo un array*/
       /* Como son varioas props devuelves un objeto  */
       return {
@@ -47,6 +54,8 @@ import React from "react";
         saveItem,
         loading,
         error,
+        sincronizeItem,
+
       };
     };
 

@@ -31,6 +31,7 @@ function App() {
     addTodo,
     error,
     loading,
+    sincronizeTodos,
     /* Esto es un componente no es un value del context*/
     //TodosLoading,
   } = useTodos();
@@ -97,7 +98,9 @@ function App() {
       <CreateTodoButton
         setOpenModal={setOpenModal}
       />
-      <ChangeAlertWhithStorageListener />
+      <ChangeAlertWhithStorageListener
+      sincronize={sincronizeTodos}
+      />
     </React.Fragment>
   );
 }
