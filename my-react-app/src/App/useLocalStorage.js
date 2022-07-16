@@ -1,12 +1,24 @@
 import React from "react";
 
- function useLocalStorage(itemName, initialValue) { 
-  const [sincronizedItem, setSincronizedItem] = React.useState(true);
-  const [error, setError] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
+ function useLocalStorage(itemName, initialValue ) { 
+  const [state, dispactch] = React.useReducer(reducer, initialState({ initialValue }));
+  const { 
+  sincronizedItem,
+  error,
+  loading,
+  item,
+} = state;
 
-  const [item, setItem] = React.useState(initialValue);
-   
+
+  // ACTION CREATORS  
+  const onError = (item) => dispactch({type: actionTypes.error, payload: item, });
+  
+  const onSuccess = (item) => dispactch({type: actionTypes.success, payload: item, });
+  
+  const onSave = (item) => dispactch({type: actionTypes.save, payload: item, });
+
+  const onSincronize = (item) => dispactch({type: actionTypes.sincronize, payload: item, });
+
     /* Importamos de React el hook useEffect */
     React.useEffect(() => {
       setTimeout(() => {
@@ -21,13 +33,11 @@ import React from "react";
           } else {
             parsedItem = JSON.parse(localStorageItem);
           }
-          setItem(parsedItem);
-          setLoading(false);
-          sincronizedItem(true);
+          onSuccess(parsedItem);
         } catch (error) {
           console.log(error);
           setLoading(false);
-          setError(error)
+          // setError(error)
         }
       },3000);
     },[sincronizedItem]); // Este mensaje es solo adveretencia
@@ -36,15 +46,15 @@ import React from "react";
       try {
         const stringifiedItem =  JSON.stringify(newItem);
         localStorage.setItem(itemName,stringifiedItem);
-        setItem(newItem);
-      } catch(error) {
-          setError(error);
+        onSave(newItem);
+             } catch(error) {
+               OnError(error);
+        dispactch({type: actionTypes.error, payload: error })
         }
       };
       
       const sincronizeItem = () => {
-        setLoading(true)
-        setSincronizedItem(false)
+        onSincronize();
       };
 
       /* Aqui estabas devolviendo un array*/
@@ -55,9 +65,50 @@ import React from "react";
         loading,
         error,
         sincronizeItem,
-
       };
     };
 
-  
+      const initialState =({ initialValue }) => ({
+         sincronizedItem: true,
+         error: false,
+        loading: true,
+        item: initialValue,
+      });
+      
+      const actionTypes = {
+      error: 'ERROR',
+      success: 'SUCCESS',
+      save: 'SAVE',
+      sincronize:'SINCRONIZE',
+
+      }
+
+      const reducerObject = (state, payload) => ({
+        [actionTypes.error]: {
+          ...state,
+          error: true,
+        },
+        [actionTypes.success]: {
+          ...state,
+          error: false,
+          loading: false,
+          sincronizedItem: true,
+          item: payload,
+        },
+        [actionTypes.save]: {
+          ...state,
+                    item: payload,
+        },
+        [actionTypes.sincronize]: {
+          ...state,
+          sincronizeItem: false,
+          loading: true,
+        },
+      });
+
+      const reducer = (state, action) => {
+        return reducerObject(state, action.payload) [action.type] || state;
+      }
+
+
     export {useLocalStorage }
